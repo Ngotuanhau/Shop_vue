@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import store from "@/store/index";
-import firebase from "firebase";
+import store from "@/store/index";
 
 import Home from "@/views/Home";
+import About from "@/views/About";
 import Login from "@/views/Auth/Login";
 import SignUp from "@/views/Auth/SignUp";
 import ResetPass from "@/views/Auth/ResetPass";
@@ -46,39 +46,33 @@ let router = new Router({
                 requiresAuth: true
             },
             children: [{
-                path: "/",
-                name: "home",
-                component: Home
-            }]
+                    path: "/",
+                    name: "Home",
+                    component: Home
+                },
+                {
+                    path: "/about",
+                    name: "About",
+                    component: About
+                }
+            ]
         }
     ]
 });
 
 router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const currentUser = firebase.auth().currentUser;
-    if (requiresAuth && !currentUser) next("login");
-    else if (!requiresAuth && currentUser) next("/");
-    else next();
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters.isAuthenticated) {
+            next({
+                path: "/login",
+                params: {
+                    nextUrl: to.fullPath
+                }
+            });
+            return;
+        }
+    }
+    next();
 });
-
-// else if (!requiresAuth && isAuthenticated) {
-//     next({
-//         path: "/"
-//     });
-// }
-
-// if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (store.getters.isAuthenticated) {
-//         next({
-//             path: "/login",
-//             params: {
-//                 nextUrl: to.fullPath
-//             }
-//         });
-//         return;
-//     }
-// }
-// next();
 
 export default router;
