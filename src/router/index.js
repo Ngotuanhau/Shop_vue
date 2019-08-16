@@ -7,6 +7,7 @@ import About from "@/views/About";
 import Login from "@/views/Auth/Login";
 import SignUp from "@/views/Auth/SignUp";
 import ResetPass from "@/views/Auth/ResetPass";
+import ChangePass from "@/views/Auth/ChangePass";
 
 Vue.use(Router);
 
@@ -33,6 +34,14 @@ let router = new Router({
             path: "/reset_pass",
             name: "reset_pass",
             component: ResetPass,
+            meta: {
+                guest: true
+            }
+        },
+        {
+            path: "/change_pass/:token/:email",
+            name: "change_pass",
+            component: ChangePass,
             meta: {
                 guest: true
             }

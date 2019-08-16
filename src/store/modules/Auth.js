@@ -3,7 +3,8 @@ import router from "../../router";
 
 const state = {
     token: localStorage.getItem("user-token") || "",
-    user: {}
+    user: {},
+    email: {}
 };
 
 const getters = {
@@ -60,6 +61,23 @@ const actions = {
             resolve();
         });
     }
+
+    // forgot_pass({ commit }, email) {
+    //     return new Promise((resolve, reject) => {
+    //         axios
+    //             .post("http://127.0.0.1:3333/forgot_password", email)
+    //             .then(response => {
+    //                 console.log(response);
+    //                 commit("setEmail", "success");
+    //                 resolve(response);
+    //             })
+    //             .catch(error => {
+    //                 commit("setError", error.message);
+    //                 commit("setStatus", "failure");
+    //                 reject(error);
+    //             });
+    //     });
+    // }
 };
 
 const mutations = {
@@ -78,6 +96,9 @@ const mutations = {
         state.status = "";
         state.token = "";
     }
+    // setEmail(state, email) {
+    //     state.email = email;
+    // }
 };
 
 export default {

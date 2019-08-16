@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import firebase from "firebase";
-
 export default {
   props: {
     value: false
@@ -31,12 +29,7 @@ export default {
 
   methods: {
     logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push("login");
-        });
+      this.$store.dispatch("logout").then(() => this.$router.push("/login"));
     }
   }
 };
