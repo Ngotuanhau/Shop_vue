@@ -8,6 +8,8 @@ import Login from "@/views/Auth/Login";
 import SignUp from "@/views/Auth/SignUp";
 import ResetPass from "@/views/Auth/ResetPass";
 import ChangePass from "@/views/Auth/ChangePass";
+import Me from "@/views/Auth/Me";
+import EditProfile from "@/views/Auth/EditProfile";
 
 Vue.use(Router);
 
@@ -63,6 +65,16 @@ let router = new Router({
                     path: "/about",
                     name: "About",
                     component: About
+                },
+                {
+                    path: "/me",
+                    name: "Me",
+                    component: Me
+                },
+                {
+                    path: "/setting/profile/:id",
+                    name: "EditProfile",
+                    component: EditProfile
                 }
             ]
         }

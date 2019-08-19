@@ -10,7 +10,8 @@ export default new Vuetify({
         iconfont: "mdi",
         values: {
             eye: "mdi-eye",
-            eye_off: "mdi-eye-off"
+            eye_off: "mdi-eye-off",
+            account: "mdi-account"
         }
     }
 });

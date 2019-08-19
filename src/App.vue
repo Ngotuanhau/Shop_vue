@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-navigation-drawer v-model="drawer" app></v-navigation-drawer>
-    <v-app-bar @toogle="drawer=!drawer" app></v-app-bar>
+    <v-app-bar @toogle="drawer=!drawer" app v-if="isAuthenticated"></v-app-bar>
     <v-content transition="slide-x-transition">
-      <v-layout>
+      <v-layout fill-height>
         <v-snack-bar></v-snack-bar>
         <v-snackbar
           :message="message"
@@ -22,6 +22,7 @@
         <router-view v-on:showSnackbar="showSnackbar"></router-view>
       </v-layout>
     </v-content>
+    <v-footer app v-if="isAuthenticated"></v-footer>
   </v-app>
 </template>
 
@@ -29,12 +30,14 @@
 import NavigationDrawer from "@/views/Drawer";
 import SnackBar from "@/components/Snackbar/Snackbar";
 import AppBar from "@/views/Toolbar";
+import Footer from "@/views/Footer";
 
 export default {
   components: {
     vAppBar: AppBar,
     vNavigationDrawer: NavigationDrawer,
-    vSnackBar: SnackBar
+    vSnackBar: SnackBar,
+    vFooter: Footer
   },
 
   data() {
@@ -58,6 +61,12 @@ export default {
       this.x = xPos;
       this.mode = mode;
       this.snackbar = true;
+    }
+  },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
     }
   }
 };

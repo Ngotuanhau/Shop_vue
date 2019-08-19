@@ -1,8 +1,10 @@
 import axios from "axios";
 import router from "../../router";
+import setAuthToken from "../../helpers/token";
+import VueCookies from "vue-cookies";
 
 const state = {
-    token: localStorage.getItem("user-token") || "",
+    token: VueCookies.get("user-token") || "",
     user: {},
     email: {}
 };
@@ -38,16 +40,15 @@ const actions = {
                 .then(response => {
                     console.log(response);
                     const token = response.data.data.token;
-                    const user = response.data.data.user;
-                    localStorage.setItem("user-token", token);
-                    axios.defaults.headers.common["Authorization"] = token;
+                    VueCookies.set("user-token", token);
+                    setAuthToken(token);
                     commit("setUser", token, user);
                     resolve(response);
                 })
                 .catch(error => {
                     commit("setError", error.message);
                     commit("setStatus", "failure");
-                    localStorage.removeItem("user-token");
+                    VueCookies.remove("user-token");
                     reject(error);
                 });
         });
@@ -56,28 +57,11 @@ const actions = {
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit("setLogout");
-            localStorage.removeItem("user-token");
-            delete axios.defaults.headers.common["Authorization"];
+            VueCookies.remove("user-token");
+            setAuthToken(false);
             resolve();
         });
     }
-
-    // forgot_pass({ commit }, email) {
-    //     return new Promise((resolve, reject) => {
-    //         axios
-    //             .post("http://127.0.0.1:3333/forgot_password", email)
-    //             .then(response => {
-    //                 console.log(response);
-    //                 commit("setEmail", "success");
-    //                 resolve(response);
-    //             })
-    //             .catch(error => {
-    //                 commit("setError", error.message);
-    //                 commit("setStatus", "failure");
-    //                 reject(error);
-    //             });
-    //     });
-    // }
 };
 
 const mutations = {
@@ -96,9 +80,6 @@ const mutations = {
         state.status = "";
         state.token = "";
     }
-    // setEmail(state, email) {
-    //     state.email = email;
-    // }
 };
 
 export default {
