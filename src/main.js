@@ -6,22 +6,12 @@ import axios from "axios";
 import vuetify from "@/plugin/vuetify";
 import VeeValidate from "vee-validate";
 import "./styles/_main.scss";
-import VueCookies from "vue-cookies";
-import setAuthToken from "./helpers/token";
+import plugin_axios from "./plugin/plugin_axios";
 
-Vue.use(VueCookies);
 Vue.use(VeeValidate);
-Vue.use(axios);
+Vue.use(plugin_axios);
 
 Vue.config.productionTip = false;
-
-window.axios = axios;
-axios.defaults.baseURL = "http://127.0.0.1:3333";
-
-const token = VueCookies.get("user-token");
-if (token) {
-    setAuthToken(token);
-}
 
 new Vue({
     vuetify,

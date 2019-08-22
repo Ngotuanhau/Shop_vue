@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/index";
+import { Role } from "../helpers/Role";
 
+import Admin from "@/views/Admin/Admin";
 import Home from "@/views/Home";
 import About from "@/views/About";
 import Login from "@/views/Auth/Login";
@@ -9,7 +11,6 @@ import SignUp from "@/views/Auth/SignUp";
 import ResetPass from "@/views/Auth/ResetPass";
 import ChangePass from "@/views/Auth/ChangePass";
 import Me from "@/views/Auth/Me";
-import EditProfile from "@/views/Auth/EditProfile";
 
 Vue.use(Router);
 
@@ -49,12 +50,24 @@ let router = new Router({
             }
         },
         {
+            path: "/admin",
+            name: "Admin",
+            component: Admin,
+            meta: {
+                requiresAuth: false,
+                requiresAdmin: true,
+                requiresSuperAdmin: true
+            }
+        },
+        {
             path: "/",
             component: {
                 render: h => h("router-view")
             },
             meta: {
-                requiresAuth: true
+                requiresAuth: true,
+                requiresAdmin: true,
+                requiresSuperAdmin: true
             },
             children: [{
                     path: "/",
@@ -70,11 +83,6 @@ let router = new Router({
                     path: "/me",
                     name: "Me",
                     component: Me
-                },
-                {
-                    path: "/setting/profile/:id",
-                    name: "EditProfile",
-                    component: EditProfile
                 }
             ]
         }
