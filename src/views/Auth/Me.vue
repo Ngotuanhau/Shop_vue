@@ -8,6 +8,9 @@
               <div class="c-avarta">
                 <v-icon>$vuetify.icons.account</v-icon>
               </div>
+              <v-btn color="brown lighten-4" @click="openEdit(item)">
+                <v-icon color="brown lighten-1" small>$vuetify.icons.pencil</v-icon>
+              </v-btn>
             </div>
             <v-spacer></v-spacer>
             <div sx12 md4>
@@ -30,15 +33,24 @@
           </v-flex>
         </v-card>
       </v-flex>
+      <v-edit-profile v-model="dialog_edit" :item="currentItem" />
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import EditProfile from "../../components/Dialog/DialogEditProfile";
+
 export default {
+  components: {
+    vEditProfile: EditProfile
+  },
+
   data() {
     return {
-      userData: []
+      userData: [],
+      currentItem: {},
+      dialog_edit: false
     };
   },
 
@@ -48,6 +60,11 @@ export default {
         console.log(response);
         this.userData = response.data;
       });
+    },
+
+    openEdit(item) {
+      this.currentItem = item;
+      this.dialog_edit = true;
     }
   },
 

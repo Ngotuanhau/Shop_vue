@@ -11,7 +11,8 @@ export default new Vuetify({
         values: {
             eye: "mdi-eye",
             eye_off: "mdi-eye-off",
-            account: "mdi-account"
+            account: "mdi-account",
+            pencil: "mdi-pencil"
         }
     }
 });

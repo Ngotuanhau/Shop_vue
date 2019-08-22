@@ -15,6 +15,9 @@
           <router-link to="/" class="c-text">Home</router-link>
         </v-btn>
         <v-btn text class="c-btn">
+          <router-link to="/admin" class="c-text">Admin</router-link>
+        </v-btn>
+        <v-btn text class="c-btn">
           <router-link to="/about" class="c-text">About Us</router-link>
         </v-btn>
         <v-btn text class="c-btn">
@@ -39,10 +42,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./../styles/main.scss";
+
 .c-toolbar {
   height: 64px;
 }
+
+.c-bg-toolbar {
+  background-color: $main-bg-color-3;
+}
+.c-btn {
+  color: $text-color-1;
+}
 .c-text {
   text-decoration: none;
+  color: $text-color-1;
+}
+.c-menudrop {
+  background-color: $main-bg-color-4;
 }
 </style>
