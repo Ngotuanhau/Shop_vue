@@ -1,16 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/index";
-import { Role } from "../helpers/Role";
+import VueCookies from "vue-cookies";
 
-import Admin from "@/views/Admin/Admin";
 import Home from "@/views/Home";
-import About from "@/views/About";
 import Login from "@/views/Auth/Login";
 import SignUp from "@/views/Auth/SignUp";
 import ResetPass from "@/views/Auth/ResetPass";
 import ChangePass from "@/views/Auth/ChangePass";
-import Me from "@/views/Auth/Me";
+
+import Me from "@/views/GuestLayouts/Me";
+import About from "@/views/GuestLayouts/About";
+
+import Manage from "@/views/AdminLayouts/Manage";
 
 Vue.use(Router);
 
@@ -20,61 +22,53 @@ let router = new Router({
     routes: [{
             path: "/login",
             name: "login",
-            component: Login,
-            meta: {
-                guest: true
-            }
+            component: Login
         },
         {
             path: "/sign_up",
             name: "sign_up",
-            component: SignUp,
-            meta: {
-                guest: true
-            }
+            component: SignUp
         },
         {
             path: "/reset_pass",
             name: "reset_pass",
-            component: ResetPass,
-            meta: {
-                guest: true
-            }
+            component: ResetPass
         },
         {
             path: "/change_pass/:token/:email",
             name: "change_pass",
-            component: ChangePass,
-            meta: {
-                guest: true
-            }
-        },
-        {
-            path: "/admin",
-            name: "Admin",
-            component: Admin,
-            meta: {
-                requiresAuth: false,
-                requiresAdmin: true,
-                requiresSuperAdmin: true
-            }
+            component: ChangePass
         },
         {
             path: "/",
+            name: "Home",
+            component: Home
+        },
+        {
+            path: "/admin",
             component: {
                 render: h => h("router-view")
             },
             meta: {
                 requiresAuth: true,
-                requiresAdmin: true,
-                requiresSuperAdmin: true
+                roles: ["admin"]
             },
             children: [{
-                    path: "/",
-                    name: "Home",
-                    component: Home
-                },
-                {
+                path: "/manage",
+                name: "Manage",
+                component: Manage
+            }]
+        },
+        {
+            path: "/guest",
+            component: {
+                render: h => h("router-view")
+            },
+            meta: {
+                requiresAuth: true,
+                roles: ["user"]
+            },
+            children: [{
                     path: "/about",
                     name: "About",
                     component: About
@@ -91,17 +85,26 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isAuthenticated) {
-            next({
-                path: "/login",
-                params: {
-                    nextUrl: to.fullPath
+        const authUser = store.state.Auth.user;
+        if (store.getters.isAuthenticated) {
+            if (!to.meta.roles) {
+                return next();
+            }
+            if (to.meta.roles.includes(authUser.role)) {
+                switch (authUser.role) {
+                    case "user":
+                        next({ path: "/guest" });
+                        break;
+                    case "admin":
+                        next({ path: "/admin" });
+                        break;
+                    default:
+                        next({ path: "/" });
                 }
-            });
-            return;
+            }
         }
     }
-    next();
+    return next();
 });
 
 export default router;

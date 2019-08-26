@@ -7,7 +7,7 @@ export default {
         axios.defaults.baseURL = "http://127.0.0.1:3333";
         axios.interceptors.request.use(
             config => {
-                const token = VueCookies.get("user-token");
+                const token = VueCookies.get("token");
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`;
                 }

@@ -9,20 +9,23 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
       <v-toolbar-items class="hidden-xs-only">
         <v-btn text class="c-btn">
           <router-link to="/" class="c-text">Home</router-link>
         </v-btn>
-        <v-btn text class="c-btn">
-          <router-link to="/admin" class="c-text">Admin</router-link>
+        <v-btn text class="c-btn" v-if="isAdmin.role === 'admin'">
+          <router-link to="/manage" class="c-text">Manage</router-link>
         </v-btn>
-        <v-btn text class="c-btn">
-          <router-link to="/about" class="c-text">About Us</router-link>
-        </v-btn>
-        <v-btn text class="c-btn">
-          <router-link to="/me" class="c-text">Me</router-link>
-        </v-btn>
+
+        <v-flex v-if="isAdmin.role === 'user'" class="c-g-btn">
+          <v-btn text class="c-btn">
+            <router-link to="/about" class="c-text">About Us</router-link>
+          </v-btn>
+          <v-btn text class="c-btn">
+            <router-link to="/me" class="c-text">Me</router-link>
+          </v-btn>
+        </v-flex>
+
         <v-btn class="c-btn" text @click="logout">
           <span class="c-text">Logout</span>
         </v-btn>
@@ -36,6 +39,13 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => this.$router.push("/login"));
+    }
+  },
+
+  computed: {
+    isAdmin() {
+      return this.$store.getters.isAdmin;
+      console.log(isAdmin, "123");
     }
   }
 };
@@ -51,8 +61,16 @@ export default {
 .c-bg-toolbar {
   background-color: $main-bg-color-3;
 }
+
+.c-g-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .c-btn {
   color: $text-color-1;
+  height: 100% !important;
 }
 .c-text {
   text-decoration: none;

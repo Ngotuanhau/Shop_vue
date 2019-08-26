@@ -2,7 +2,6 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
-import axios from "axios";
 import vuetify from "@/plugin/vuetify";
 import VeeValidate from "vee-validate";
 import "./styles/_main.scss";

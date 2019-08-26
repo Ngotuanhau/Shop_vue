@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>home</h1>
+    <h1>hello admin</h1>
   </v-container>
 </template>
 
@@ -8,6 +8,5 @@
 export default {};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>
-

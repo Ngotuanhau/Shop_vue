@@ -3,16 +3,15 @@ import router from "../../router";
 import VueCookies from "vue-cookies";
 
 const state = {
-    token: VueCookies.get("user-token") || "",
-    user: {},
-    users: [],
-    email: {}
+    token: VueCookies.get("token") || "",
+    user: VueCookies.get("user") || "",
+    users: []
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
-    isAuthenticatedAdmin: state => state.user,
-    isAuthenticatedSuperAdmin: state => state.user,
+    isAdmin: state => state.user,
+    // isAuthenticatedSuperAdmin: state => state.user,
     authStatus: state => state.status
 };
 /* eslint-disable */
@@ -40,16 +39,21 @@ const actions = {
             axios
                 .post("/login", user)
                 .then(response => {
-                    console.log(response);
-                    const token = response.data.data.token;
-                    VueCookies.set("user-token", token);
-                    commit("setUser", token);
+                    // console.log(response);
+                    const token = response.data.token;
+                    const user = response.data.user;
+                    VueCookies.set("user", user);
+                    VueCookies.set("token", token);
+                    commit("setUser", user);
+                    commit("setToken", token);
                     resolve(response);
                 })
                 .catch(error => {
                     commit("setError", error.message);
                     commit("setStatus", "failure");
-                    VueCookies.remove("user-token");
+                    VueCookies.remove("token");
+                    VueCookies.remove("user");
+
                     reject(error);
                 });
         });
@@ -58,15 +62,21 @@ const actions = {
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit("setLogout");
-            VueCookies.remove("user-token");
+            VueCookies.remove("token");
+            VueCookies.remove("user");
+
             resolve();
         });
     }
 };
 
 const mutations = {
-    setUser(state, token, user) {
+    setUser(state, user) {
         state.status = "success";
+        state.user = user;
+        // state.token = token;
+    },
+    setToken(state, token) {
         state.token = token;
     },
     setError(state, error) {
