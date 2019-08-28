@@ -12,7 +12,9 @@ export default new Vuetify({
             eye: "mdi-eye",
             eye_off: "mdi-eye-off",
             account: "mdi-account",
-            pencil: "mdi-pencil"
+            pencil: "mdi-pencil",
+            facebook: "mdi-facebook",
+            delete: "mdi-delete"
         }
     }
 });

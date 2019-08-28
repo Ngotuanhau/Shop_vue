@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app></v-navigation-drawer>
+    <v-navigation-drawer v-model="drawer" app v-if="isAdmin.role === 'admin'"></v-navigation-drawer>
     <v-app-bar @toogle="drawer=!drawer" app v-if="isAuthenticated"></v-app-bar>
     <v-content transition="slide-x-transition">
       <v-layout fill-height>
@@ -67,6 +67,11 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+
+    isAdmin() {
+      return this.$store.getters.isAdmin;
+      // console.log(isAdmin, "123");
     }
   }
 };

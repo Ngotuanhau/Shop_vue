@@ -5,20 +5,11 @@
         &copy;{{ new Date().getFullYear() }}
         <strong>Vuetify</strong>
       </v-flex>
-      <!-- <v-flex class="c-group-icon" xs12 md6>
-        <v-btn text class="c-btn">
-          <v-icon color="brown lighten-1">$vuetify.icons.twitter</v-icon>
-        </v-btn>
-        <v-btn text class="c-btn">
-          <v-icon color="brown lighten-1">$vuetify.icons.google</v-icon>
-        </v-btn>
-        <v-btn text class="c-btn">
-          <v-icon color="brown lighten-1">$vuetify.icons.instagram</v-icon>
-        </v-btn>
+      <v-flex class="c-group-icon" xs12 md6>
         <v-btn text class="c-btn">
           <v-icon color="brown lighten-1">$vuetify.icons.facebook</v-icon>
         </v-btn>
-      </v-flex>-->
+      </v-flex>
     </v-layout>
   </v-footer>
 </template>
@@ -34,20 +25,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .c-bg-footer {
-//   background-color: $main-bg-color-3;
-// }
-// .c-text {
-//   color: $text-color-1;
-//   display: flex;
-//   align-items: center;
-// }
-// .c-group-icon {
-//   display: flex;
-//   justify-content: flex-end;
-// }
-// .c-btn {
-//   min-width: 15px;
-//   margin: 6px 0;
-// }
+@import "./../styles/main.scss";
+
+.c-bg-footer {
+  background-color: $main-bg-color-3;
+}
+.c-text {
+  color: $text-color-1;
+  display: flex;
+  align-items: center;
+}
+.c-group-icon {
+  display: flex;
+  justify-content: flex-end;
+}
+.c-btn {
+  min-width: 15px;
+  margin: 6px 0;
+}
 </style>
