@@ -14,7 +14,9 @@ export default new Vuetify({
             account: "mdi-account",
             pencil: "mdi-pencil",
             facebook: "mdi-facebook",
-            delete: "mdi-delete"
+            delete: "mdi-delete",
+            close: "mdi-close-circle",
+            plus: "mdi-plus-box-outline"
         }
     }
 });

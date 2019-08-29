@@ -74,7 +74,6 @@ const mutations = {
     setUser(state, user) {
         state.status = "success";
         state.user = user;
-        // state.token = token;
     },
     setToken(state, token) {
         state.token = token;

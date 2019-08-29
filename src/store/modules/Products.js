@@ -11,6 +11,7 @@ const getters = {
 };
 
 const actions = {
+    //GET PRODUCTS-------------------------------------------------------------
     getProducts({ commit }) {
         return new Promise((resolve, reject) => {
             axios
@@ -24,6 +25,19 @@ const actions = {
                     reject(error);
                 });
         });
+    },
+
+    //ADD PRODUCT-------------------------------------------------------------
+    async addProduct({ commit }, product) {
+        const response = await axios
+            .post("/products", product)
+            .then(response => {
+                console.log(response);
+                commit("setAddProduct", product);
+            })
+            .catch(error => {
+                commit("setAddProductError", error);
+            });
     }
 };
 
@@ -31,6 +45,15 @@ const mutations = {
     setProducts(state, products) {
         state.products = Object.assign(products, state.products);
         state.status = "Get Products Success!!";
+    },
+
+    setAddProduct(state, product) {
+        state.product = state.products.unshift(product);
+        state.status = "Add Product Success";
+    },
+
+    setAddProductError(state) {
+        state.status = "Add Product Failure!!";
     }
 };
 
